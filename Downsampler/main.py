@@ -29,7 +29,7 @@ if localdev == 'false':
 input_topic = app.topic(os.environ['input'])
 output_topic = app.topic(os.environ['output'])
 
-target_field = os.environ['target_field']
+target_field = os.getenv('target_field', 'temperature')
 logger.info(f'Target field is: {target_field}')
 
 sdf = app.dataframe(input_topic)
