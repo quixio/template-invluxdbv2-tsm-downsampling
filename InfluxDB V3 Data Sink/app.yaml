@@ -24,7 +24,7 @@ variables:
   - name: input
     inputType: InputTopic
     description: ''
-    defaultValue: influxv2-data
+    defaultValue: downsampled
     required: false
   - name: INFLUXDB_TOKEN
     inputType: Secret

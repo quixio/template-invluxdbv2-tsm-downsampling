@@ -1,0 +1,21 @@
+name: Downsampler
+language: python
+variables:
+  - name: input
+    inputType: InputTopic
+    description: This is the input topic to read data from
+    defaultValue: influxv2-data
+    required: true
+  - name: output
+    inputType: OutputTopic
+    description: This is the output topic to write data to
+    defaultValue: downsampled
+    required: true
+  - name: target_field
+    inputType: FreeText
+    description: ''
+    defaultValue: temperature
+    required: true
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py

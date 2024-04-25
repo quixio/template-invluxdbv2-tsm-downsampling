@@ -9,7 +9,7 @@ deployments:
   - name: InfluxDB V2 Data Source
     application: InfluxDB V2 Data Source
     deploymentType: Service
-    version: a9d23348e272b9273b5105560d249327c4096446
+    version: latest
     resources:
       cpu: 200
       memory: 500
@@ -49,7 +49,7 @@ deployments:
   - name: InfluxDB V3 Data Sink
     application: InfluxDB V3 Data Sink
     deploymentType: Service
-    version: 659e5e49ef5c7d43af3c23bcf7759b86b8fb8649
+    version: latest
     resources:
       cpu: 200
       memory: 500
@@ -96,13 +96,35 @@ deployments:
         description: ''
         required: false
         value: influxdb-data-writer
+  - name: Downsampler
+    application: Downsampler
+    deploymentType: Service
+    version: latest
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: This is the input topic to read data from
+        defaultValue: influxv2-data
+        required: true
+      - name: output
+        inputType: OutputTopic
+        description: This is the output topic to write data to
+        defaultValue: downsampled
+        required: true
+      - name: target_field
+        inputType: FreeText
+        description: ''
+        defaultValue: temperature
+        required: true
 
 # This section describes the Topics of the data pipeline
 topics:
   - name: influxv2-data
     persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
+  - name: downsampled
+    persisted: false

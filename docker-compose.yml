@@ -74,13 +74,26 @@ services:
       - redpanda
 
   influx-v3-sink:
-    container_name: influx-v3-source
+    container_name: influx-v3-sink
     restart: always
     build:
       context: "./InfluxDB V3 Data Sink"
     environment:
       - KAFKA_BROKER_ADDRESS=redpanda:9092
+      - input=downsampled
+      - use_local_kafka=true
+    depends_on:
+      - redpanda
+
+  downsampler:
+    container_name: downsampler
+    restart: always
+    build:
+      context: "./Downsampler"
+    environment:
+      - KAFKA_BROKER_ADDRESS=redpanda:9092
       - input=influxv2-data
+      - output=downsampled
       - use_local_kafka=true
     depends_on:
       - redpanda

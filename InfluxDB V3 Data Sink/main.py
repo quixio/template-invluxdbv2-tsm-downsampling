@@ -6,23 +6,21 @@ import logging
 
 # import vendor-specific modules
 from quixstreams import Application
-from quixstreams.models.serializers.quix import JSONDeserializer
 from influxdb_client_3 import InfluxDBClient3
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 consumer_group_name = os.environ.get('CONSUMER_GROUP_NAME', "influxdb-data-writer")
 
-app = Application.Quix(consumer_group=consumer_group_name,
+app = Application(consumer_group=consumer_group_name,
                        auto_offset_reset="earliest")
 
-input_topic = app.topic(os.environ["input"], value_deserializer=JSONDeserializer())
-
+# Create the input topic object, this uses json serialization by default.
+input_topic = app.topic(os.environ["input"])
 
 # Read the environment variable and convert it to a dictionary
 tag_keys = ast.literal_eval(os.environ.get('INFLUXDB_TAG_KEYS', "[]"))
 field_keys = ast.literal_eval(os.environ.get('INFLUXDB_FIELD_KEYS', "[]"))
-
 
 # Read the environment variable for the field(s) to get.
 # For multiple fields, use a list "['field1','field2']"
