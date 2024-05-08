@@ -1,0 +1,46 @@
+name: InfluxDB v2 Data Sink
+language: python
+variables:
+  - name: INFLUXDB_TAG_KEYS
+    inputType: FreeText
+    description: The names of tags to look for in the incoming data and retain when writing to InfluxDB v2
+    defaultValue: "['location','sensor-id']"
+    required: false
+  - name: INFLUXDB_HOST
+    inputType: FreeText
+    description: ''
+    defaultValue: us-east-1-1.aws.cloud2.influxdata.com
+    required: true
+  - name: INFLUXDB_ORG
+    inputType: FreeText
+    description: ''
+    defaultValue: ContentSquad
+    required: true
+  - name: INFLUXDB_BUCKET
+    inputType: FreeText
+    description: ''
+    defaultValue: connector-testing-sink
+    required: false
+  - name: input
+    inputType: InputTopic
+    description: ''
+    defaultValue: downsampled
+    required: false
+  - name: INFLUXDB_TOKEN
+    inputType: Secret
+    description: ''
+    defaultValue: influx_db3
+    required: true
+  - name: INFLUXDB_FIELD_KEYS
+    inputType: FreeText
+    description: The names of the fields to look for in the incoming data and retain when writing to InfluxDB V3
+    defaultValue: "['count','confidence-score']"
+    required: true
+  - name: CONSUMER_GROUP_NAME
+    inputType: FreeText
+    description: ''
+    defaultValue: influxdb-data-writer
+    required: false
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
